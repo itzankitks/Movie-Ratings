@@ -1,6 +1,7 @@
 # movie_ratings
 
 A new Flutter project.
+An App with the huge DataBase of Movies which shows their ratings and description.
 
 ## Getting Started
 
