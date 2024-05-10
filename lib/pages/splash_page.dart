@@ -3,6 +3,8 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:get_it/get_it.dart";
+import "package:movie_ratings/services/http_service.dart";
+import "package:movie_ratings/services/movie_service.dart";
 import "../model/app_config.dart";
 
 // class SplashPage extends StatefulWidget {
@@ -61,10 +63,20 @@ class _SplashPageState extends State<SplashPage> {
     final configFile = await rootBundle.loadString('assets/config/main.json');
     final configData = jsonDecode(configFile);
 
-    getit.registerSingleton<AppConfig>(AppConfig(
-        BASE_API_URL: configData['BASE_API_URL'],
-        BASE_IMAGE_API_URL: configData['BASE_IMAGE_API_URL'],
-        API_KEY: configData['API_KEY']));
+    getit.registerSingleton<AppConfig>(
+      AppConfig(
+          BASE_API_URL: configData['BASE_API_URL'],
+          BASE_IMAGE_API_URL: configData['BASE_IMAGE_API_URL'],
+          API_KEY: configData['API_KEY']),
+    );
+
+    getit.registerSingleton<HTTPService>(
+      HTTPService(),
+    );
+
+    getit.registerSingleton<MovieService>(
+      MovieService(),
+    );
   }
 
   @override
