@@ -1,6 +1,7 @@
 # movie_ratings
 
-A new Flutter project.
+A new Flutter project using Riverpod a state management package provided by flutter to handle the states of the ap with ease. Whenever we fetch DATA from API app needs to be re-built again and again. This can be done easily by the StateNotifier provided by Riverpod.
+
 An App with the huge DataBase of Movies which shows their ratings and description.
 
 ## Getting Started

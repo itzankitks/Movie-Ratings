@@ -1,11 +1,10 @@
-// ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, avoid_print
+// ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, avoid_print, prefer_interpolation_to_compose_strings
 
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import '../model/app_config.dart';
 
 class HTTPService {
-  final Dio dio = Dio();
   final GetIt getIt = GetIt.instance;
 
   late String _base_url;
@@ -17,22 +16,16 @@ class HTTPService {
     _api_key = _config.API_KEY;
   }
 
-  Future<Response> get(String _path, {Map<String, dynamic>? query}) async {
+  Future<http.Response> get(String _path, {Map<String, dynamic>? query}) async {
     try {
-      String _url = '$_base_url$_path';
-      Map<String, dynamic> _query = {
-        'api_key': _api_key,
-        'language': 'en-US',
-      };
-      // ignore: unnecessary_null_comparison
+      String url = '$_base_url$_path?api_key=$_api_key&language=en-US';
       if (query != null) {
-        _query.addAll(query);
+        url += '&' + query.entries.map((e) => '${e.key}=${e.value}').join('&');
       }
-      return await dio.get(_url, queryParameters: _query);
-    } on DioException catch (e) {
-      print('unable to perform get request');
-      print('DioError: $e');
-      rethrow;
+      print("URL: $url");
+      return await http.get(Uri.parse(url));
+    } catch (e) {
+      throw Exception('Unable to perform get request: $e');
     }
   }
 }
